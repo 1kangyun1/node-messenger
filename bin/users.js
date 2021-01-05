@@ -9,9 +9,15 @@ function userJoin(id, username){
 }
 
 function userLeave(id){
-  
+  const index = users.findIndex(user => user.id === id);
 
-  return users;
+  console.log(users);
+  console.log(id);
+  console.log('index is '+ index);
+
+  if(index !== -1){
+    return  {user:users.splice(index, 1)[0], users};
+  }
 }
 
 module.exports = {

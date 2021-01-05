@@ -40,25 +40,28 @@ io.on('connection', socket => {
 
   //client initial connection
   socket.on('username', ({ username }) => {
+    console.log('added user to list');
     const users = userJoin(socket.id, username);
 
-    io.emit('message', username+' has joined the chatroom')
+    io.emit('message', username+' has joined the chatroom');
     io.emit('userList', users);
   })
 
   //client sends message
-  socket.on('clientMessage', ({ text }) => {
+  socket.on('clientMessage', ({ name, text }) => {
     console.log(text);
     io.emit('message', text);
   })
 
   //client disconnets
   socket.on('disconnect', () => {
-    console.log('A user has logged off')
+    console.log('A user has logged off');
 
-    const users = userLeave(socket.id);
+    const { user, users } = userLeave(socket.id);
 
-    //also emit message that a specific user has left
+    console.log(user);
+
+    io.emit('message', user.username+' has left the chatroom');
     io.emit('userList', users);
   })
 })
