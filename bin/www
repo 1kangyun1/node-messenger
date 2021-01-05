@@ -9,6 +9,7 @@ var debug = require('debug')('server:server');
 var http = require('http');
 const socketio = require('socket.io');
 const { isObject } = require('util');
+const { userJoin, userLeave } = require('./users.js');
 
 /**
  * Get port from environment and store in Express.
@@ -39,7 +40,10 @@ io.on('connection', socket => {
 
   //client initial connection
   socket.on('username', ({ username }) => {
+    const users = userJoin(socket.id, username);
+
     io.emit('message', username+' has joined the chatroom')
+    io.emit('userList', users);
   })
 
   //client sends message
@@ -51,6 +55,11 @@ io.on('connection', socket => {
   //client disconnets
   socket.on('disconnect', () => {
     console.log('A user has logged off')
+
+    const users = userLeave(socket.id);
+
+    //also emit message that a specific user has left
+    io.emit('userList', users);
   })
 })
 
