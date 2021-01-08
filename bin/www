@@ -30,7 +30,7 @@ var server = http.createServer(app);
 
 const io = socketio(server, {
   cors: {
-    origin: "*",
+    origin: "https://1kangyun1.github.io/",
     methods: ["GET", "POST"]
   }
 });
