@@ -10,6 +10,7 @@ var http = require('http');
 const socketio = require('socket.io');
 const { isObject } = require('util');
 const { userJoin, userLeave } = require('./users.js');
+const socketHandler = require('./socketHandler.js');
 
 /**
  * Get port from environment and store in Express.
@@ -35,36 +36,7 @@ const io = socketio(server, {
   }
 });
 
-io.on('connection', socket => {
-  console.log('new user has connected');
-
-  //client initial connection
-  socket.on('username', ({ username }) => {
-    console.log('added user to list');
-    const users = userJoin(socket.id, username);
-
-    io.emit('message', username+' has joined the chatroom');
-    io.emit('activeUser', users);
-  })
-
-  //client sends message
-  socket.on('clientMessage', ({ name, text }) => {
-    console.log(text);
-    io.emit('message', text);
-  })
-
-  //client disconnets
-  socket.on('disconnect', () => {
-    console.log('A user has logged off');
-
-    const { user, users } = userLeave(socket.id);
-
-    console.log(user);
-
-    io.emit('message', user.username+' has left the chatroom');
-    io.emit('activeUser', users);
-  })
-})
+io.on('connection', socketHandler)
 
 /**
  * Listen on provided port, on all network interfaces.

@@ -1,9 +1,13 @@
 const users = [];
 
 function userJoin(id, username){
-  const user = {id, username};
+  const index = users.findIndex(user => user.id === id);
 
-  users.push(user);
+  if(index === -1){
+    const user = {id, username};
+
+    users.push(user);
+  }
 
   return users;
 }
