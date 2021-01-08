@@ -9,7 +9,6 @@ var debug = require('debug')('server:server');
 var http = require('http');
 const socketio = require('socket.io');
 const { isObject } = require('util');
-const { userJoin, userLeave } = require('./users.js');
 const socketHandler = require('./socketHandler.js');
 
 /**
@@ -36,7 +35,7 @@ const io = socketio(server, {
   }
 });
 
-io.on('connection', socketHandler)
+io.on('connection', socket => socketHandler(io, socket));
 
 /**
  * Listen on provided port, on all network interfaces.

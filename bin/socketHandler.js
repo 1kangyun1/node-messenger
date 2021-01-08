@@ -1,8 +1,9 @@
 const createMessage = require('./message');
+const { userJoin, userLeave } = require('./users.js');
 
 const serverName = 'Server';
 
-function socketHandler() {
+function socketHandler(io, socket) {
   console.log('new user has connected');
 
   //client initial connection
