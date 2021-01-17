@@ -2,10 +2,6 @@
 
 Realtime chat app back-end using NodeJS, Express and Socket.io
 
-## usage
-```
-npm install
-npm start
+It is currently deployed on Heroku cloud.
 
-Go to localhost:9000
-```
+You can test the application at https://1kangyun1.github.com/react-messenger
